@@ -4,43 +4,31 @@
   <div v-else>...loading</div>
 </template>
 
-<script>
+<script setup>
 import { onMounted, ref } from '@vue/runtime-core'
 import Board from './components/Board.vue'
 import axios from 'axios'
 
-export default {
-  name: 'App',
-  components: {
-    Board,
+const word = ref('')
+const options = {
+  method: 'GET',
+  url: 'https://wordsapiv1.p.rapidapi.com/words/',
+  params: {
+    random: 'true',
+    lettersMax: 5,
+    lettersMin: 5,
+    frequencyMin: 4.5,
   },
-  setup() {
-    const word = ref('')
-    const options = {
-      method: 'GET',
-      url: 'https://wordsapiv1.p.rapidapi.com/words/',
-      params: {
-        random: 'true',
-        lettersMax: 5,
-        lettersMin: 5,
-        frequencyMin: 4.5,
-      },
-      headers: {
-        'x-rapidapi-host': 'wordsapiv1.p.rapidapi.com',
-        'x-rapidapi-key': process.env.VUE_APP_API_KEY,
-      },
-    }
-
-    onMounted(async () => {
-      const response = await axios.request(options)
-      word.value = response.data.word
-    })
-
-    return {
-      word,
-    }
+  headers: {
+    'x-rapidapi-host': 'wordsapiv1.p.rapidapi.com',
+    'x-rapidapi-key': process.env.VUE_APP_API_KEY,
   },
 }
+
+onMounted(async () => {
+  const response = await axios.request(options)
+  word.value = response.data.word
+})
 </script>
 
 <style>

@@ -28,11 +28,11 @@ const props = defineProps({
   word: String,
 })
 
-const splitWord = computed(() => props.word.split(''))
+const input = ref()
 const words = ref([])
 const newWord = ref('')
+const splitWord = computed(() => props.word.split(''))
 const guesses = computed(() => [...new Set(words.value.join())])
-const input = ref()
 
 const handleGuess = () => {
   words.value = [...words.value, newWord.value.toLowerCase()]
